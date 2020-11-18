@@ -1,0 +1,1 @@
+from .locations_model import Location

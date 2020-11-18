@@ -35,6 +35,19 @@ class Database():
         
         return results
     
+    def last_insert_id(self):
+        ''' Returns the ID of the last row inserted '''
+        
+        query = "SELECT LAST_INSERT_ID()"
+        
+        cursor = self.cursor()
+        cursor.execute(query)
+        
+        result = cursor.fetchone()
+        last_insert_id = result[0]
+        
+        return last_insert_id
+    
     def create_table(self, sql_schema):
         ''' Using an SQL Schema, this method creates a table in your database '''
         
@@ -85,3 +98,36 @@ class Database():
             data.append(res)
             
         return data
+    
+    def insert_record(self, table, columns, values):
+        ''' Inserts a record into a table '''
+        
+        query = """INSERT INTO {table} (""".format(table=table)
+        
+        for col in columns:
+            col_str = """{col}""".format(col=col)
+            
+            if columns.index(col) == len(columns) - 1:
+                col_str += ") VALUES ("
+            else:
+                col_str += ", "
+            
+            query += col_str
+            
+        for val in values:
+            val_str = "%s"
+            
+            if values.index(val) == len(values) - 1:
+                val_str += ") "
+            else:
+                val_str += ", "
+                
+            query += val_str
+                
+        print('Created insert query: ' + query)
+        
+        cursor = self.cursor()
+        cursor.execute(query, values)
+        
+        conn = self.connection
+        conn.commit()

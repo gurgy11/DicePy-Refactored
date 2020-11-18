@@ -1,10 +1,11 @@
+from dicepy.lib.database.tables.categories_table import CategoriesTable
 from .database import Database
 from .tables import *
 
 ''' Initialize table objects '''
 addresses_table = AddressesTable()
 users_table = UsersTable()
-# Todo: categories
+categories_table = CategoriesTable()
 # Todo: storage_locations
 # Todo: suppliers
 # Todo: products
@@ -22,3 +23,4 @@ def create_all_tables():
     
     addresses_table.create_table()
     users_table.create_table()
+    categories_table.create_table()

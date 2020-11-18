@@ -48,6 +48,19 @@ class Database():
         
         return last_insert_id
     
+    def number_of_records(self, table):
+        ''' Returns the number of records in a table '''
+        
+        query = """SELECT COUNT(*) FROM {table};""".format(table=table)
+        
+        cursor = self.cursor()
+        cursor.execute(query)
+        
+        result = cursor.fetchone()
+        number_of_records = result[0]
+        
+        return number_of_records
+    
     def create_table(self, sql_schema):
         ''' Using an SQL Schema, this method creates a table in your database '''
         

@@ -1,5 +1,4 @@
 from . import Table
-from .. import Database
 
 
 class UsersTable(Table):

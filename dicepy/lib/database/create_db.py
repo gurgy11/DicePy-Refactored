@@ -7,8 +7,8 @@ addresses_table = AddressesTable()
 users_table = UsersTable()
 categories_table = CategoriesTable()
 clients_table = ClientsTable()
+suppliers_table = SuppliersTable()
 # Todo: storage_locations
-# Todo: suppliers
 # Todo: products
 # Todo: sub_categories
 # Todo: incoming_orders
@@ -25,3 +25,4 @@ def create_all_tables():
     users_table.create_table()
     categories_table.create_table()
     clients_table.create_table()
+    suppliers_table.create_table()

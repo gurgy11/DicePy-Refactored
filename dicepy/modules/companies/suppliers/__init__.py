@@ -1,1 +1,2 @@
 from .suppliers_model import Supplier
+from .suppliers_controller import SuppliersController

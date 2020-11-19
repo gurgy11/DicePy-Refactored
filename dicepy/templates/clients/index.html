@@ -1,0 +1,91 @@
+{% extends 'base.html' %} {% block header %}
+<div class="header">
+    <h1 class="top-heading">Clients - Index</h1>
+    <h2 class="text-muted second-heading">This is the index page for managing your clients. View them in the table below!</h2>
+    <hr class="hr-header">
+</div>
+{% endblock %} {% block content %}
+<div class="options-container">
+    <div class="row">
+        <div class="col">
+            <form action="/clients/create" method="GET">
+                <button type="submit" id="createNewBtn" class="btn btn-primary form-control">Create New</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="table-container">
+    <h3 class="table-header">Clients Table View</h3>
+    <div class="table-filters-container">
+        <div class="row">
+            <div class="col">
+                <input type="number" step="1" name="limit" id="limit" class="form-control" placeholder="Enter a limit of items per page...">
+            </div>
+            <div class="col">
+                <button type="button" id="setLimitBtn" class="btn btn-outline-primary form-control">Set Limit</button>
+            </div>
+        </div>
+    </div>
+    <table id="clientsTable" class="table table-striped table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Company Name</th>
+                <th>About</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address ID</th>
+                <th>Notes</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if clients %} {% for client in clients %}
+            <tr>
+                <td>{{ client.id }}</td>
+                <td>{{ client.company_name }}</td>
+                <td>{{ client.about }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.phone }}</td>
+                <td>{{ client.address_id }}</td>
+                <td>{{ client.notes }}</td>
+                <td>{{ client.created_at }}</td>
+                <td>
+                    <div class="row">
+                        <form action="/clients/edit/{{ client.id }}" method="GET" id="toEditForm">
+                            <button type="submit" class="btn-option btn btn-outline-warning form-control">Edit</button>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <form action="/clients/delete/{{ client.id }}" method="GET" id="toDelete">
+                            <button type="submit" class="btn-option btn btn-outline-danger form-control">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %} {% else %}
+            <p><b>No records found in the database.</b></p>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+<div class="pagination-container">
+    <div class="row">
+        {% if num_pages %} {% for x in range(num_pages) %}
+        <button type="button" class="btn-pagination btn btn-outline-primary" value="{{ x + 1 }}">{{ x + 1 }}</button> {% endfor %} {% endif %}
+    </div>
+</div>
+<script>
+    // Set the limit of items per page in the table
+    $('#setLimitBtn').on('click', function() {
+        var limit = $('#limit').val();
+        window.location.href = '/clients/index?page={{ page }}&limit=' + limit;
+    });
+
+    // Event when clicking a pagination button
+    $('.btn-pagination').on('click', function() {
+        var page = $(this).val();
+        window.location.href = '/clients/index?page=' + page + '&limit={{ limit }}';
+    });
+</script>
+{% endblock %}

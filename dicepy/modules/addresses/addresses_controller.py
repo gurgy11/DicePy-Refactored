@@ -57,3 +57,27 @@ class AddressesController(Controller):
             print('Exception thrown creating new address: ' + str(e))
             
             return None
+        
+    def search(self, form):
+        street_address = form.get('street_address')
+        city = form.get('city')
+        postal_code = form.get('postal_code')
+        province = form.get('province')
+        country = form.get('country')
+        
+        results = self.db.select_all_where(self.table, 'street_address', street_address)
+        address_found = None
+        
+        if len(results) > 0:
+            match = False
+            for res in results:
+                if match is not True:
+                    address = self.result_to_model(res)
+                    if address.city == city:
+                        if address.postal_code == postal_code:
+                            if address.province == province:
+                                if address.country == country:
+                                    address_found = address
+                                    match = True
+        
+        return address_found

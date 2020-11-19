@@ -6,13 +6,13 @@ from .tables import *
 addresses_table = AddressesTable()
 users_table = UsersTable()
 categories_table = CategoriesTable()
+clients_table = ClientsTable()
 # Todo: storage_locations
 # Todo: suppliers
 # Todo: products
 # Todo: sub_categories
 # Todo: incoming_orders
 # Todo: outgoing_orders
-# Todo: clients
 # Todo: contacts
 # Todo: employees
 # Todo: expenses
@@ -24,3 +24,4 @@ def create_all_tables():
     addresses_table.create_table()
     users_table.create_table()
     categories_table.create_table()
+    clients_table.create_table()

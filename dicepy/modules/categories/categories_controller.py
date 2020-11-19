@@ -99,3 +99,20 @@ class CategoriesController():
                 categories_in_range.append(cat)
                 
         return categories_in_range
+    
+    def edit(self, category_id, form):
+        errors = []
+        
+        if self.category_name_exists(form.get('category_name')) is True:
+            error = 'The category name provided is already being used!'
+            errors.append(error)
+        else:
+            values = self.form_to_values(form)
+            self.db.update_record(self.table, self.columns, values, category_id)
+            print('Edited category with ID: ' + str(category_id))
+            
+        return errors
+    
+    def delete(self, category_id):
+        self.db.delete_record(self.table, category_id)
+        print('Delete category with ID: ' + str(category_id))

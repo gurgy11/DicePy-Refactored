@@ -144,3 +144,33 @@ class Database():
         
         conn = self.connection
         conn.commit()
+        
+    def update_record(self, table, columns, values, record_id):
+        query = """UPDATE {table} SET """.format(table=table)
+        
+        for col in columns:
+            col_str = """{col}=%s""".format(col=col)
+            
+            if columns.index(col) == len(columns) - 1:
+                col_str += " "
+            else:
+                col_str += ", "
+                
+            query += col_str
+            
+        query += """WHERE id={record_id}""".format(record_id=record_id)
+        
+        cursor = self.cursor()
+        cursor.execute(query, values)
+        
+        conn = self.connection
+        conn.commit()
+        
+    def delete_record(self, table, record_id):
+        query = """DELETE FROM {table} WHERE id={record_id}""".format(table=table, record_id=record_id)
+        
+        cursor = self.cursor()
+        cursor.execute(query)
+        
+        conn = self.connection
+        conn.commit()

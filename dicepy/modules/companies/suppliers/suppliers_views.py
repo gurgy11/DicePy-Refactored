@@ -2,12 +2,12 @@ from dicepy.modules.addresses import addresses_controller
 from flask import Blueprint, request, render_template, redirect, url_for, jsonify
 
 from . import SuppliersController
-from ...addresses import AddressesController
+from dicepy.lib.fields import Field, EmailField, PhoneField
+from dicepy.lib.forms import Form
 from dicepy.lib.middleware.auth_middleware import login_required
 
 bp = Blueprint('suppliers', __name__)
 controller = SuppliersController()
-addresses_controller = AddressesController()
 
 
 @bp.route('/suppliers')
@@ -35,7 +35,9 @@ def index():
 @login_required
 def create():
     if request.method == 'POST':
-        form = {'company_name': request.form.get('')}
+        supplier_form = {'company_name': request.form.get('company_name'), 'about': request.form.get('about'),
+                         'email': request.form.get('email'), 'street_address': request.form.get('street_address'),
+                         'city': request.form.get('city')}
     
     return render_template('suppliers/create.html', title='Suppliers - Create')
 

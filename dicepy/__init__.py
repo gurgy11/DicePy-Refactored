@@ -47,4 +47,8 @@ def create_app(test_config=None):
     app.register_blueprint(clients_bp)
     app.add_url_rule('/', endpoint='clients')
     
+    from .modules.companies.suppliers import suppliers_bp
+    app.register_blueprint(suppliers_bp)
+    app.add_url_rule('/', endpoint='suppliers')
+    
     return app
